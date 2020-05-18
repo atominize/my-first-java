@@ -6,6 +6,8 @@ public class Main {
 	// write your code here
 //        StringManipulator stringManipulator = new StringManipulator();
 //        ConsecutiveElements consecutiveElements = new ConsecutiveElements();
-        SortArray sortArray = new SortArray();
+//        SortArray sortArray = new SortArray();
+        QuadraticSolver quadraticSolver = new QuadraticSolver();
+
     }
 }
