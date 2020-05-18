@@ -16,13 +16,22 @@ public class QuadraticSolver {
         System.out.println("This solves quadratics of the form Ax^2 + Bx + C = 0");
         getEqnCoefficients();
         solveQuadraticEqn(A, B, C);
-        System.out.println("The first root is " + first_root);
-        if (typeOfEqn != 0) {
-            System.out.println("The second root is " + second_root);
-        }
+        displayRootsOfEqn();
+        System.out.println();
         System.out.println();
         if (continueSolver()) {
             new QuadraticSolver();
+        }
+    }
+
+    private void displayRootsOfEqn() {
+        if (typeOfEqn == 0) {
+            System.out.println("The root is " + first_root);
+        } else if (typeOfEqn == 1) {
+            System.out.println("The first root is " + first_root);
+            System.out.println("The second root is " + second_root);
+        } else {
+            System.out.println("The roots are " + first_root + " \u00B1 " + second_root + "i");
         }
     }
 
@@ -34,20 +43,23 @@ public class QuadraticSolver {
         B = scanner.nextDouble();
         System.out.print("Please enter the value of C, C = ");
         C = scanner.nextDouble();
+        System.out.println();
         System.out.println("Is this the equation you want to solve?");
         System.out.println(A + "x^2 + " + B + "x + " + C + " = 0, Y(Yes)/N(No)");
         System.out.println("Enter Y or N");
         String response = scanner.next();
+        System.out.println();
         if (response.toLowerCase().equals("n")) {
             System.out.println("Sorry, please re-enter the equation again");
             getEqnCoefficients();
         } else {
             System.out.println("Thank you, we will proceed to solve it for you");
+            System.out.println();
         }
     }
 
     private void solveQuadraticEqn(double A, double B, double C) {
-        System.out.println("About to solve equation");
+        System.out.println("Solution:");
         double det = calDiscriminant(A, B, C);
         if (det == 0) {
             System.out.println("The equation has a repeated root");
@@ -60,7 +72,8 @@ public class QuadraticSolver {
             typeOfEqn = 1;
         } else {
             System.out.println("The equation has a pair of complex conjugate root");
-            // Todo: write the codes for complex roots
+            first_root = -B / 2*A;
+            second_root = Math.sqrt(-det) / 2*A;
             typeOfEqn = 2;
         }
     }
