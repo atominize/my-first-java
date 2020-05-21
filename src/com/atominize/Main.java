@@ -7,7 +7,7 @@ public class Main {
 //        StringManipulator stringManipulator = new StringManipulator();
 //        ConsecutiveElements consecutiveElements = new ConsecutiveElements();
 //        SortArray sortArray = new SortArray();
-        QuadraticSolver quadraticSolver = new QuadraticSolver();
-
+//        QuadraticSolver quadraticSolver = new QuadraticSolver();
+        Differentiation differentiation = new Differentiation();
     }
 }
