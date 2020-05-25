@@ -32,35 +32,49 @@ public class Differentiation {
     private String productRule(String function1, String function2) {
         String funcType1 = analyzeFunction(function1);
         String funcType2 = analyzeFunction(function2);
-        return multiplyFunctions(diffFunction(function1, funcType1), function2) + " + " +
-                multiplyFunctions(function1, diffFunction(function2, funcType2));
+        String simFunc1 = simplifyFunction(multiplyFunctions(diffFunction(function1, funcType1), function2));
+        String simFunc2 = simplifyFunction(multiplyFunctions(function1, diffFunction(function2, funcType2)));
+        if (simFunc1.equals("")) {
+            return simFunc2;
+        } else if (simFunc2.equals("")) {
+            return simFunc1;
+        }
+        return  simFunc1 + " + " + simFunc2;
     }
 
     private String simplifyFunction(String function) {
-        String[] functions = function.split("/+");
         List<String> polyFunctions = new ArrayList<>();
         List<String> expoFunctions = new ArrayList<>();
-        for (String func: functions) {
-            String[] funcComps = func.split("/*");
-            if (funcComps.length >= 3) {
-                for (String funcComp: funcComps) {
-                    if (analyzeFunction(funcComp).equals("Poly")) {
-                        polyFunctions.add(funcComp);
-                    } else if (analyzeFunction(funcComp).equals("Expo")) {
-                        expoFunctions.add(funcComp);
-                    }
-                }
-            }
-            if (polyFunctions.size() >= 2) {
-                int[] constPoly = { 1, 0 };
-                for (String poly: polyFunctions) {
-                    constPoly = multiplyPoly(getPolyCoeAndPower(poly), constPoly);
-                }
-                polyFunctions.add(getPolyFuncFromCoeAndPower(constPoly));
+        String[] funcComps = function.split("\\*");
+//        System.out.println(Arrays.toString(funcComps));
+        for (String comp : funcComps) {
+            if (comp.equals("0")) {
+                return "";
+            } else if (comp.equals("1")) {
+                return function.replace(comp, "").replace("*", "");
             }
         }
+        if (funcComps.length >= 3) {
+            for (String funcComp: funcComps) {
+                if (analyzeFunction(funcComp).equals("Poly")) {
+                    polyFunctions.add(funcComp);
+                } else if (analyzeFunction(funcComp).equals("Expo")) {
+                    expoFunctions.add(funcComp);
+                }
+            }
+        } else {
+            return function;
+        }
+        if (polyFunctions.size() >= 2) {
+            int[] constPoly = { 1, 0 };
+            for (String poly: polyFunctions) {
+                constPoly = multiplyPoly(getPolyCoeAndPower(poly), constPoly);
+            }
+            polyFunctions.add(getPolyFuncFromCoeAndPower(constPoly));
+        }
+//        System.out.println(polyFunctions.toString());
         return polyFunctions.get(polyFunctions.size() - 1) + "*" + expoFunctions.get(0);
-        // Todo: fix simplification function
+        // Todo: done with simplifying, add addition
     }
 
     private int[] multiplyPoly(int[] poly1, int[] poly2) {
@@ -137,6 +151,7 @@ public class Differentiation {
 
     private int[] getPolyCoeAndPower(String function) {
         String[] coeAndPower = function.split("x");
+//        System.out.println(function);
 //        System.out.println(Arrays.toString(coeAndPower));
         int[] intCoeAndPower = {1, 1};
         if (coeAndPower.length == 1) {
