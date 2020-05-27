@@ -8,6 +8,7 @@ public class Main {
 //        ConsecutiveElements consecutiveElements = new ConsecutiveElements();
 //        SortArray sortArray = new SortArray();
 //        QuadraticSolver quadraticSolver = new QuadraticSolver();
-        Differentiation differentiation = new Differentiation();
+//        Differentiation differentiation = new Differentiation();
+        Integration integration = new Integration();
     }
 }

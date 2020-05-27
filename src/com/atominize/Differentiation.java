@@ -13,6 +13,7 @@ public class Differentiation {
     private int[] coeAndPower;
     private String function;
     private String functionType;
+    private String solution = "";
 
     public Differentiation() {
         System.out.println("Welcome, this program helps you to differentiate any function");
@@ -20,12 +21,31 @@ public class Differentiation {
         Scanner scanner = new Scanner(System.in);
         function = scanner.next();
         System.out.println();
+        String[] funcCompOfAddition = function.split("\\+");
+        for (String func: funcCompOfAddition) {
+            addToSolution(getSolForFunc(func));
+        }
+        displayAnswer(function, solution);
+    }
+
+    private String getSolForFunc(String function) {
         String[] funcComponents = function.split("\\*");
+        String result;
         if (funcComponents.length > 1) {
-            String result = productRule(funcComponents[0], funcComponents[1]);
-            displayAnswer(function, result);
+            result = productRule(funcComponents[0], funcComponents[1]);
         } else {
-            displayAnswer(function, diffFunction(function, analyzeFunction(function)));
+            result = diffFunction(function, analyzeFunction(function));
+        }
+        return result;
+    }
+
+    private void addToSolution(String partialSol) {
+        if (partialSol.equals("0"))
+            partialSol = "";
+        if (solution.equals("")) {
+            solution = partialSol;
+        } else {
+            solution += " + " + partialSol;
         }
     }
 
@@ -95,7 +115,6 @@ public class Differentiation {
         } else {
             return "Poly";
         }
-
     }
 
     private String diffFunction(String function, String functionType) {
