@@ -10,7 +10,6 @@ public class Main {
 //        QuadraticSolver quadraticSolver = new QuadraticSolver();
 //        Differentiation differentiation = new Differentiation();
 //        Integration integration = new Integration();
-        ArkTeX arkTeX = new ArkTeX("x");
-        arkTeX.openOutputPdf();
+        ArkTeX arkTeX = new ArkTeX("2x^2 + 4x + exp(x)", "4x + 4 + exp(x)");
     }
 }

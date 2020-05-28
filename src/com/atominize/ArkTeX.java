@@ -1,27 +1,41 @@
 package com.atominize;
 
 import java.awt.*;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
+import java.io.*;
 import java.util.Scanner;
 
 //  This class takes an expression and makes a latex file with the expression as output
 public class ArkTeX {
-    private String expression;
+    private String function;
+    private String derivative;
     private String output = "";
 
-    public ArkTeX(String expression) {
-        this.expression = expression;
+    public ArkTeX(String function, String derivative) {
+        this.function = function;
+        this.derivative = derivative;
+        convertOutputTexToString();
+        getNewOutputString();
+        writeToOutputTex();
+        execOutput("newOutput");
+        openOutputPdf();
     }
 
-    public void makeTeXFile() {
-
+    private void getNewOutputString() {
+        String replacement = "{LARGE}\n The differentiation of $$" + convertFuncToTex(function)
+                + " $$ is \n\n" + "$$ " + convertFuncToTex(derivative) + " $$ ." + "\n\\end{LARGE}";
+        String[]  outputs = output.split("\\{LARGE}");
+        output = outputs[0] + replacement + outputs[2];
     }
 
-    public void openOutputPdf() {
+// 2x^3 + exp(x^4)
+    private String convertFuncToTex(String function) {
+        return function.replace("exp(", "e^{")
+                .replace(")", "}");
+    }
+
+    private void openOutputPdf() {
         String currentDir = System.getProperty("user.dir");
-        String filePath = currentDir + "/src/com/atominize/output.pdf";
+        String filePath = currentDir + "/src/com/atominize/newOutput.pdf";
         File file = new File(filePath);
         if (Desktop.isDesktopSupported()) {
             try {
@@ -32,11 +46,11 @@ public class ArkTeX {
         }
     }
 
-    public void execOutput() {
+    private void execOutput(String output) {
         try {
             String currentDir = System.getProperty("user.dir");
             String filePath = currentDir + "/src/com/atominize";
-            ProcessBuilder processBuilder = new ProcessBuilder("pdflatex", "output.tex")
+            ProcessBuilder processBuilder = new ProcessBuilder("pdflatex", output + ".tex")
                     .inheritIO().directory(new File(filePath));
             Process process = processBuilder.start();
             process.waitFor();
@@ -45,7 +59,25 @@ public class ArkTeX {
         }
     }
 
-    public void readOutputFile() {
+    private void writeToOutputTex() {
+        String currentDir = System.getProperty("user.dir");
+        String filePath = currentDir + "/src/com/atominize/newOutput.tex";
+        File file = new File(filePath);
+//        System.out.println(output);
+        byte[] b = output.getBytes();
+        try {
+            FileOutputStream fileOutputStream = new FileOutputStream(file);
+            int i = 0;
+            while (i < b.length) {
+                fileOutputStream.write(b[i]);
+                i++;
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void convertOutputTexToString() {
         String currentDir = System.getProperty("user.dir");
         String filePath = currentDir + "/src/com/atominize/output.tex";
         File file = new File(filePath);
@@ -55,7 +87,7 @@ public class ArkTeX {
             while (scanner.hasNextLine()) {
                 output += scanner.nextLine() + "\n";
             }
-            System.out.println(output);
+//            System.out.println(output);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
