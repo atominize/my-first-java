@@ -9,6 +9,8 @@ public class Main {
 //        SortArray sortArray = new SortArray();
 //        QuadraticSolver quadraticSolver = new QuadraticSolver();
 //        Differentiation differentiation = new Differentiation();
-        Integration integration = new Integration();
+//        Integration integration = new Integration();
+        ArkTeX arkTeX = new ArkTeX("x");
+        arkTeX.openOutputPdf();
     }
 }
