@@ -8,8 +8,9 @@ public class Main {
 //        ConsecutiveElements consecutiveElements = new ConsecutiveElements();
 //        SortArray sortArray = new SortArray();
 //        QuadraticSolver quadraticSolver = new QuadraticSolver();
-//        Differentiation differentiation = new Differentiation();
+        Differentiation differentiation = new Differentiation();
+        differentiation.startAndDisInCon();
 //        Integration integration = new Integration();
-        ArkTeX arkTeX = new ArkTeX("2x^2 + 4x + exp(x)", "4x + 4 + exp(x)");
+//        ArkTeX arkTeX = new ArkTeX("2x^2+4x+exp(x)", "4x + 4 + exp(x)");
     }
 }

@@ -8,11 +8,24 @@ import java.util.Scanner;
 public class ArkTeX {
     private String function;
     private String derivative;
+    private String showWork;
+    private boolean isShowWorkEnable;
     private String output = "";
 
     public ArkTeX(String function, String derivative) {
         this.function = function;
         this.derivative = derivative;
+        this.isShowWorkEnable = false;
+    }
+
+    public ArkTeX(String function, String derivative, String showWork) {
+        this.function = function;
+        this.derivative = derivative;
+        this.showWork = showWork;
+        this.isShowWorkEnable = true;
+    }
+
+    public void start() {
         convertOutputTexToString();
         getNewOutputString();
         writeToOutputTex();
@@ -23,6 +36,9 @@ public class ArkTeX {
     private void getNewOutputString() {
         String replacement = "{LARGE}\n The differentiation of $$" + convertFuncToTex(function)
                 + " $$ is \n\n" + "$$ " + convertFuncToTex(derivative) + " $$ ." + "\n\\end{LARGE}";
+        if (isShowWorkEnable) {
+            replacement = showWork; // Todo: write the expression for the correct latex
+        }
         String[]  outputs = output.split("\\{LARGE}");
         output = outputs[0] + replacement + outputs[2];
     }

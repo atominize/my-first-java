@@ -21,11 +21,26 @@ public class Differentiation {
         Scanner scanner = new Scanner(System.in);
         function = scanner.next();
         System.out.println();
+    }
+
+    public void startAndDisInCon() {
+        beginSteps();
+        displayAnswer(function, solution);
+    }
+
+    public void start() {
+        beginSteps();
+        ArkTeX arkTeX = new ArkTeX(function, solution);
+        arkTeX.start();
+    }
+
+    private void beginSteps() {
         String[] funcCompOfAddition = function.split("\\+");
+        // catch first step - move operator through
+        // Todo: introduce the show work array or string and catch the expressions
         for (String func: funcCompOfAddition) {
             addToSolution(getSolForFunc(func));
         }
-        displayAnswer(function, solution);
     }
 
     private String getSolForFunc(String function) {
@@ -36,6 +51,7 @@ public class Differentiation {
         } else {
             result = diffFunction(function, analyzeFunction(function));
         }
+        // catch second step - derivative of each function
         return result;
     }
 
@@ -59,6 +75,7 @@ public class Differentiation {
         } else if (simFunc2.equals("")) {
             return simFunc1;
         }
+        // catch use of product rule
         return  simFunc1 + " + " + simFunc2;
     }
 
@@ -93,11 +110,12 @@ public class Differentiation {
             polyFunctions.add(getPolyFuncFromCoeAndPower(constPoly));
         }
 //        System.out.println(polyFunctions.toString());
+        // catch simplification of function
         return polyFunctions.get(polyFunctions.size() - 1) + "*" + expoFunctions.get(0);
-        // Todo: done with simplifying, add addition
     }
 
     private int[] multiplyPoly(int[] poly1, int[] poly2) {
+        // catch multiplication of polynomials
         return new int[] { poly1[0]*poly2[0], poly1[1]+poly2[1] };
     }
 
@@ -110,6 +128,7 @@ public class Differentiation {
     }
 
     private String analyzeFunction(String function) {
+        // catch the type of function to be differentiated
         if (function.matches("exp(.*)")) {
             return "Expo";
         } else {
@@ -133,6 +152,7 @@ public class Differentiation {
     }
 
     private String chainRule(String uFunction, String xFunction) {
+        // catch use of chain rule
         if (analyzeFunction(uFunction).equals("Expo")) {
             String newXFunction = getPolyFuncFromCoeAndPower(diffPolynomial(getPolyCoeAndPower(xFunction)));
             if (newXFunction.equals("1")) {
