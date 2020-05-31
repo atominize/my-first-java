@@ -17,5 +17,6 @@ public class Main {
         fraction.display();
         fraction1.display();
         Fraction.add(fraction, fraction1).display();
+        System.out.println(Fraction.getFactors(0));
     }
 }
