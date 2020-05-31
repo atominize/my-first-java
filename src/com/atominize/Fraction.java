@@ -2,6 +2,7 @@ package com.atominize;
 
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 // This class is for displaying and manipulating fractions
@@ -14,12 +15,13 @@ public class Fraction {
         this.denominator = denominator;
     }
 
+    // Todo: learn to override operations
 
     public void display() {
-        int remainder = numerator % denominator;
-        String fraction = String.valueOf(numerator) + "/" + String.valueOf(denominator);
-        if (remainder == 0) {
-            fraction = String.valueOf(numerator / denominator);
+        int[] factors = endSimplification(new int[] { numerator, denominator });
+        String fraction = String.valueOf(factors[0]) + "/" + String.valueOf(factors[1]);
+        if (factors[1] == 1) {
+            fraction = String.valueOf(factors[0]);
         }
         System.out.println(fraction);
     }
@@ -28,10 +30,35 @@ public class Fraction {
         int denominator = first_fraction.denominator * second_fraction.denominator;
         int numerator = (denominator / first_fraction.denominator) * first_fraction.numerator
                 + (denominator / second_fraction.denominator) * second_fraction.numerator;
-        return new Fraction(numerator, denominator);
+        int[] factors = endSimplification(new int[] { numerator, denominator });
+        return new Fraction(factors[0], factors[1]);
     }
 
-    // Todo: gcd and lcd functions
+    private static int[] endSimplification(int[] prev_fraction) {
+        int[] current_fraction = simplifyFraction(prev_fraction[0], prev_fraction[1]);
+        while (!Arrays.equals(prev_fraction, current_fraction)) {
+            prev_fraction = current_fraction;
+            current_fraction = simplifyFraction(current_fraction[0], current_fraction[1] );
+        }
+        return prev_fraction;
+    }
+
+    private static int[] simplifyFraction(int numerator, int denominator) {
+        List<Integer> numerator_factors = getFactors(numerator);
+        List<Integer> denominator_factors = getFactors(denominator);
+        for (int num_factor: numerator_factors) {
+            for (int den_factor: denominator_factors) {
+                if (num_factor != 1 & num_factor == den_factor) {
+                    numerator /= num_factor;
+                    denominator /= num_factor;
+                    return new int[] { numerator, denominator };
+                }
+            }
+        }
+        return new int[] { numerator, denominator };
+    }
+
+    // Todo: gcd and lcm functions
     public static List<Integer> getFactors(int number) {
         List<Integer> factors = new ArrayList<>();
         if (number < 1) {
@@ -52,7 +79,7 @@ public class Fraction {
             int next_factor_comp = number / next_factor;
             factors.add(next_factor);
             if (next_factor == next_factor_comp) {
-                System.out.println(next_factor);
+//                System.out.println(next_factor);
                 break;
             }
             factors.add(next_factor_comp);

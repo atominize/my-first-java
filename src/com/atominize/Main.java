@@ -12,11 +12,11 @@ public class Main {
 //        differentiation.startAndDisInCon();
 //        Integration integration = new Integration();
 //        ArkTeX arkTeX = new ArkTeX("2x^2+4x+exp(x)", "4x + 4 + exp(x)");
-        Fraction fraction = new Fraction(1,2);
-        Fraction fraction1 = new Fraction(1,4);
+        Fraction fraction = new Fraction(4,4);
+        Fraction fraction1 = new Fraction(4,44);
         fraction.display();
         fraction1.display();
         Fraction.add(fraction, fraction1).display();
-        System.out.println(Fraction.getFactors(0));
+//        System.out.println(Fraction.getFactors(0));
     }
 }
