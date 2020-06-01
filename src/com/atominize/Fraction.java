@@ -58,7 +58,7 @@ public class Fraction {
         return new int[] { numerator, denominator };
     }
 
-    // Todo: gcd and lcm functions
+    // Todo: gcd and lcm functions, polynomial expansions,
     public static List<Integer> getFactors(int number) {
         List<Integer> factors = new ArrayList<>();
         if (number < 1) {
