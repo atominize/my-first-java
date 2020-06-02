@@ -12,7 +12,7 @@ import java.util.Scanner;
 public class Differentiation {
     private int[] coeAndPower;
     private String function;
-    private String functionType;
+    private StringBuilder showWork;
     private String solution = "";
 
     public Differentiation() {
@@ -34,13 +34,36 @@ public class Differentiation {
         arkTeX.start();
     }
 
+    public void startAndShowWork() {
+        beginSteps();
+//        System.out.println(makeTexReady(showWork.toString()));
+        showWork.append("$$");
+        ArkTeX arkTeX = new ArkTeX(function, solution, makeTexReady(showWork.toString()));
+        arkTeX.start();
+    }
+
     private void beginSteps() {
         String[] funcCompOfAddition = function.split("\\+");
         // catch first step - move operator through
+        showWork = new StringBuilder();
+        showWork.append("$$\\frac{d}{dx}(").append(convertFuncToTex(function)).append(")").append("=");
         // Todo: introduce the show work array or string and catch the expressions
         for (String func: funcCompOfAddition) {
             addToSolution(getSolForFunc(func));
+            func = convertFuncToTex(func);
+            showWork.append("+").append("\\frac{d}{dx}").append("(").append(func).append(")");
         }
+    }
+
+    private String convertFuncToTex(String function) {
+        return function.replace("exp(", "e^{")
+                .replace(")", "}");
+    }
+
+    private String makeTexReady(String showWork) {
+        showWork = showWork.replace("=+", "=");
+//        showWork = showWork.replace("=", "&=&");
+        return showWork;
     }
 
     private String getSolForFunc(String function) {
