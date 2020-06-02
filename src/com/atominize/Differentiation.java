@@ -2,7 +2,6 @@ package com.atominize;
 
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
@@ -12,7 +11,10 @@ import java.util.Scanner;
 public class Differentiation {
     private int[] coeAndPower;
     private String function;
-    private StringBuilder showWork;
+    private StringBuilder showWorkLinearSplit;
+    private StringBuilder showWork = new StringBuilder();
+    private List<StringBuilder> showWorkArray;
+    private StringBuilder derivatives = new StringBuilder();;
     private String solution = "";
 
     public Differentiation() {
@@ -35,34 +37,43 @@ public class Differentiation {
     }
 
     public void startAndShowWork() {
+        showWork.append("\n\\begin{eqnarray*}\n");
         beginSteps();
 //        System.out.println(makeTexReady(showWork.toString()));
-        showWork.append("$$");
-        ArkTeX arkTeX = new ArkTeX(function, solution, makeTexReady(showWork.toString()));
+
+        for (StringBuilder showWord: showWorkArray) {
+            showWork.append(makeTexReady(showWord.toString())).append("\\\\\n\\\\\n");
+        }
+        showWork.append("\\end{eqnarray*}\n");
+        System.out.println(showWork);
+        ArkTeX arkTeX = new ArkTeX(function, solution, showWork.toString());
         arkTeX.start();
     }
 
     private void beginSteps() {
         String[] funcCompOfAddition = function.split("\\+");
         // catch first step - move operator through
-        showWork = new StringBuilder();
-        showWork.append("$$\\frac{d}{dx}(").append(convertFuncToTex(function)).append(")").append("=");
+        showWorkLinearSplit = new StringBuilder();
+        showWorkArray = new ArrayList<>();
+        showWorkLinearSplit.append("\\frac{d}{dx}(").append(convertFuncToTex(function)).append(")").append("=");
         // Todo: introduce the show work array or string and catch the expressions
         for (String func: funcCompOfAddition) {
             addToSolution(getSolForFunc(func));
             func = convertFuncToTex(func);
-            showWork.append("+").append("\\frac{d}{dx}").append("(").append(func).append(")");
+            showWorkLinearSplit.append("+").append("\\frac{d}{dx}").append("(").append(func).append(")");
         }
+        showWorkArray.add(showWorkLinearSplit);
+        showWorkArray.add(derivatives);
+//        System.out.println(showWorkArray);
     }
 
     private String convertFuncToTex(String function) {
         return function.replace("exp(", "e^{")
-                .replace(")", "}");
+                .replace(")", "}").replace("*", "");
     }
 
     private String makeTexReady(String showWork) {
-        showWork = showWork.replace("=+", "=");
-//        showWork = showWork.replace("=", "&=&");
+        showWork = showWork.replace("=+", "=").replace("=", "&=&");
         return showWork;
     }
 
@@ -75,6 +86,8 @@ public class Differentiation {
             result = diffFunction(function, analyzeFunction(function));
         }
         // catch second step - derivative of each function
+        if (derivatives.toString().equals("")) derivatives.append("=").append(convertFuncToTex(result));
+        else derivatives.append("+").append(convertFuncToTex(result));
         return result;
     }
 

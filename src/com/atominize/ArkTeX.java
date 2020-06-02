@@ -37,9 +37,9 @@ public class ArkTeX {
         String replacement = "{LARGE}\n The differentiation of $$" + convertFuncToTex(function)
                 + " $$ is \n\n" + "$$ " + convertFuncToTex(derivative) + " $$ ." + "\n\\end{LARGE}";
         if (isShowWorkEnable) {
-            replacement = "{LARGE}" + showWork + "\\end{LARGE}";
+            replacement = "{Large}" + showWork + "\\end{Large}";
         }
-        String[]  outputs = output.split("\\{LARGE}");
+        String[]  outputs = output.split("\\{Large}");
         output = outputs[0] + replacement + outputs[2];
     }
 
