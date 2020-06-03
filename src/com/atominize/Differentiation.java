@@ -8,6 +8,7 @@ import java.util.Scanner;
 /* This class is for differentiating functions of polynomials,
             exponential, logarithmic and trigonometric.
          */
+        // Todo: fix bug - cannot simplify solution
 public class Differentiation {
     private int[] coeAndPower;
     private String function;
@@ -45,7 +46,7 @@ public class Differentiation {
             showWork.append(makeTexReady(showWord.toString())).append("\\\\\n\\\\\n");
         }
         showWork.append("\\end{eqnarray*}\n");
-        System.out.println(showWork);
+//        System.out.println(showWork);
         ArkTeX arkTeX = new ArkTeX(function, solution, showWork.toString());
         arkTeX.start();
     }
@@ -68,6 +69,7 @@ public class Differentiation {
     }
 
     private String convertFuncToTex(String function) {
+//        System.out.println(function);
         return function.replace("exp(", "e^{")
                 .replace(")", "}").replace("*", "");
     }
@@ -78,6 +80,7 @@ public class Differentiation {
     }
 
     private String getSolForFunc(String function) {
+//        System.out.println(function);
         String[] funcComponents = function.split("\\*");
         String result;
         if (funcComponents.length > 1) {
@@ -92,9 +95,9 @@ public class Differentiation {
     }
 
     private void addToSolution(String partialSol) {
-        if (partialSol.equals("0"))
-            partialSol = "";
-        if (solution.equals("")) {
+        if (partialSol.equals("0") & !solution.equals(""))
+            return;
+        if (solution.equals("") | solution.equals("0")) {
             solution = partialSol;
         } else {
             solution += " + " + partialSol;
@@ -165,10 +168,13 @@ public class Differentiation {
 
     private String analyzeFunction(String function) {
         // catch the type of function to be differentiated
-        if (function.matches("exp(.*)")) {
+        // regex, \d for digits, (\d)*x^?
+        if (function.matches("exp\\(.+\\)")) {
             return "Expo";
-        } else {
+        } else if (function.matches("\\d*x?\\^?\\d*")) {
             return "Poly";
+        } else {
+            return "Unknown";
         }
     }
 
