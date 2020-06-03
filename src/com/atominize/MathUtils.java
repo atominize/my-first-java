@@ -47,11 +47,37 @@ public class MathUtils {
         return new int[] { numerator, denominator };
     }
 
-    // Todo: gcd of numbers, polynomial expansions,
+    // Todo: gcd of numbers
 
-    public static int getLCM(int first, int second) {
-        int max = Math.max(first, second);
-        int min = Math.min(first, second);
+    public static int getGCD(int first_number, int second_number) {
+        int min = Math.min(first_number, second_number);
+        int max = Math.max(first_number, second_number);
+        List<Integer> min_factors = getFactors(min);
+        List<Integer> max_factors = getFactors(max);
+        int[] min_array = listToArray(min_factors);
+        Arrays.sort(min_array);
+        int gcd = 1;
+        for (int i = min_array.length - 1; i >= 0; i--) {
+            for (int item: max_factors) {
+                if (min_array[i] == item) {
+                    return item;
+                }
+            }
+        }
+        return gcd;
+    }
+
+    private static int[] listToArray(List<Integer> integerList) {
+        int[] ints = new int[integerList.size()];
+        for (int i = 0; i < integerList.size(); i++) {
+            ints[i] = integerList.get(i);
+        }
+        return ints;
+    }
+
+    public static int getLCM(int first_number, int second_number) {
+        int max = Math.max(first_number, second_number);
+        int min = Math.min(first_number, second_number);
         int remainder;
         int lcm = max;
         for (int i = 1; i < min + 1; i++) {

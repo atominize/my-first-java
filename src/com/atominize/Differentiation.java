@@ -34,23 +34,28 @@ public class Differentiation {
 
     public void start() {
         beginSteps();
-        ArkTeX arkTeX = new ArkTeX(function, solution);
+        ArkTeX arkTeX = new ArkTeX(getTexString(), false);
         arkTeX.start();
     }
 
     public void startAndShowWork() {
         isShowWorkEnabled = true;
-        showWork.append("\n\\begin{eqnarray*}\n");
+        showWork.append("\n\\begin{align*}\n");
         beginSteps();
 //        System.out.println(makeTexReady(showWork.toString()));
 
         for (StringBuilder showWord: showWorkArray) {
             showWork.append(makeTexReady(showWord.toString())).append("\\\\\n\\\\\n");
         }
-        showWork.append("\\end{eqnarray*}\n");
+        showWork.append("\\end{align*}\n");
 //        System.out.println(showWork);
-        ArkTeX arkTeX = new ArkTeX(function, solution, showWork.toString());
+        ArkTeX arkTeX = new ArkTeX(showWork.toString(), true);
         arkTeX.start();
+    }
+
+    private String getTexString() {
+        return "{LARGE}\n The differentiation of $$" + convertFuncToTex(function)
+                + " $$ is \n\n" + "$$ " + convertFuncToTex(solution) + " $$ ." + "\n\\end{LARGE}";
     }
 
     private void beginSteps() {
@@ -84,7 +89,7 @@ public class Differentiation {
     }
 
     private String makeTexReady(String showWork) {
-        showWork = showWork.replace("=+", "=").replace("=", "&=&");
+        showWork = showWork.replace("=+", "=").replace("=", "&=");
         return showWork;
     }
 

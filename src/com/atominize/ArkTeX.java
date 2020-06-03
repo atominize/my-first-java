@@ -6,24 +6,13 @@ import java.util.Scanner;
 
 //  This class takes an expression and makes a latex file with the expression as output
 public class ArkTeX {
-    private String function;
-    private String derivative;
-    private String showWork;
+    private String texString;
     private boolean isShowWorkEnable;
     private String output = "";
 
-    // Todo: fix the constructors to work for all
-    public ArkTeX(String function, String derivative) {
-        this.function = function;
-        this.derivative = derivative;
-        this.isShowWorkEnable = false;
-    }
-
-    public ArkTeX(String function, String derivative, String showWork) {
-        this.function = function;
-        this.derivative = derivative;
-        this.showWork = showWork;
-        this.isShowWorkEnable = true;
+    public ArkTeX(String texString, boolean isShowWorkEnable) {
+        this.texString = texString;
+        this.isShowWorkEnable = isShowWorkEnable;
     }
 
     public void start() {
@@ -35,20 +24,16 @@ public class ArkTeX {
     }
 
     private void getNewOutputString() {
-        String replacement = "{LARGE}\n The differentiation of $$" + convertFuncToTex(function)
-                + " $$ is \n\n" + "$$ " + convertFuncToTex(derivative) + " $$ ." + "\n\\end{LARGE}";
-        if (isShowWorkEnable) {
-            replacement = "{Large}" + showWork + "\\end{Large}";
-        }
+        String replacement = isShowWorkEnable ? "{Large}" + texString + "\\end{Large}" : texString;
         String[]  outputs = output.split("\\{Large}");
         output = outputs[0] + replacement + outputs[2];
     }
 
 // 2x^3 + exp(x^4)
-    private String convertFuncToTex(String function) {
-        return function.replace("exp(", "e^{")
-                .replace(")", "}");
-    }
+//    private String convertFuncToTex(String function) {
+//        return function.replace("exp(", "e^{")
+//                .replace(")", "}");
+//    }
 
     private void openOutputPdf() {
         String currentDir = System.getProperty("user.dir");
