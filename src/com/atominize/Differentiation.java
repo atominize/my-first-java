@@ -15,7 +15,8 @@ public class Differentiation {
     private StringBuilder showWorkLinearSplit;
     private StringBuilder showWork = new StringBuilder();
     private List<StringBuilder> showWorkArray;
-    private StringBuilder derivatives = new StringBuilder();;
+    private StringBuilder derivatives = new StringBuilder();
+    private boolean isShowWorkEnabled = false;
     private String solution = "";
 
     public Differentiation() {
@@ -38,6 +39,7 @@ public class Differentiation {
     }
 
     public void startAndShowWork() {
+        isShowWorkEnabled = true;
         showWork.append("\n\\begin{eqnarray*}\n");
         beginSteps();
 //        System.out.println(makeTexReady(showWork.toString()));
@@ -54,18 +56,25 @@ public class Differentiation {
     private void beginSteps() {
         String[] funcCompOfAddition = function.split("\\+");
         // catch first step - move operator through
-        showWorkLinearSplit = new StringBuilder();
-        showWorkArray = new ArrayList<>();
-        showWorkLinearSplit.append("\\frac{d}{dx}(").append(convertFuncToTex(function)).append(")").append("=");
-        // Todo: introduce the show work array or string and catch the expressions
+
+        if (isShowWorkEnabled) {
+            showWorkLinearSplit = new StringBuilder();
+            showWorkArray = new ArrayList<>();
+            showWorkLinearSplit.append("\\frac{d}{dx}(").append(convertFuncToTex(function)).append(")").append("=");
+        }
+
         for (String func: funcCompOfAddition) {
             addToSolution(getSolForFunc(func));
             func = convertFuncToTex(func);
-            showWorkLinearSplit.append("+").append("\\frac{d}{dx}").append("(").append(func).append(")");
+            if (isShowWorkEnabled) {
+                showWorkLinearSplit.append("+").append("\\frac{d}{dx}").append("(").append(func).append(")");
+            }
         }
-        showWorkArray.add(showWorkLinearSplit);
-        showWorkArray.add(derivatives);
+        if (isShowWorkEnabled) {
+            showWorkArray.add(showWorkLinearSplit);
+            showWorkArray.add(derivatives);
 //        System.out.println(showWorkArray);
+        }
     }
 
     private String convertFuncToTex(String function) {
@@ -89,8 +98,10 @@ public class Differentiation {
             result = diffFunction(function, analyzeFunction(function));
         }
         // catch second step - derivative of each function
-        if (derivatives.toString().equals("")) derivatives.append("=").append(convertFuncToTex(result));
-        else derivatives.append("+").append(convertFuncToTex(result));
+        if (isShowWorkEnabled) {
+            if (derivatives.toString().equals("")) derivatives.append("=").append(convertFuncToTex(result));
+            else derivatives.append("+").append(convertFuncToTex(result));
+        }
         return result;
     }
 

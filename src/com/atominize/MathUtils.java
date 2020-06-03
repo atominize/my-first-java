@@ -11,6 +11,7 @@ public class MathUtils {
 
     // Todo: combination, permutation, gamma and beta functions
     public static int factorial(int number) {
+        // Todo: write code for finding factorial of numbers
         return 0;
     }
 
@@ -18,6 +19,7 @@ public class MathUtils {
         use binomial theorem to expand it
      */
     public static String expand(String expression, int power) {
+        // Todo: write code for binomial theorem
         return null;
     }
 
@@ -45,7 +47,7 @@ public class MathUtils {
         return new int[] { numerator, denominator };
     }
 
-    // Todo: gcd and lcm functions, polynomial expansions,
+    // Todo: gcd of numbers, polynomial expansions,
 
     public static int getLCM(int first, int second) {
         int max = Math.max(first, second);

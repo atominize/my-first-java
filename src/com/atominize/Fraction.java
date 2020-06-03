@@ -17,7 +17,7 @@ public class Fraction {
         this.denominator = denominator;
     }
 
-    // Todo: learn to override operations
+    // Todo: work on multiplication and division, convert fractions to double and vice versa
 
     public void display() {
         int[] factors = MathUtils.endSimplification(new int[] { numerator, denominator });
@@ -43,4 +43,6 @@ public class Fraction {
         second_fraction.numerator = -1 * second_fraction.numerator;
         return add(first_fraction, second_fraction);
     }
+
+    // Todo: work on displaying the solution and show work
 }

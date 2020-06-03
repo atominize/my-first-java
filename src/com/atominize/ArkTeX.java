@@ -12,6 +12,7 @@ public class ArkTeX {
     private boolean isShowWorkEnable;
     private String output = "";
 
+    // Todo: fix the constructors to work for all
     public ArkTeX(String function, String derivative) {
         this.function = function;
         this.derivative = derivative;
