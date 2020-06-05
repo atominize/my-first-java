@@ -89,4 +89,6 @@ public class QuadraticSolver {
         String response = scanner.next();
         return response.toLowerCase().equals("y");
     }
+
+    // Todo: completing of squares
 }

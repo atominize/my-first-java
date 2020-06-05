@@ -11,8 +11,15 @@ public class MathUtils {
 
     // Todo: combination, permutation, gamma and beta functions
     public static int factorial(int number) {
-        // Todo: write code for finding factorial of numbers
-        return 0;
+        if (number <= 1)
+            return 1;
+        int fact_result = 1;
+
+        do {
+            fact_result *= number;
+            number--;
+        } while (number != 1) ;
+        return fact_result;
     }
 
     /*
