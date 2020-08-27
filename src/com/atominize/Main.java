@@ -23,6 +23,8 @@ public class Main {
 //        System.out.println(MathUtils.expand("x+1", 3));
 //        System.out.println(Fraction.getFactors(0));
 //        System.out.println(MathUtils.getGCD(77,121));
-        System.out.println(MathUtils.factorial(-1));
+//        System.out.println(MathUtils.factorial(-1));
+        CollarPoints collarPoints = new CollarPoints();
+
     }
 }
