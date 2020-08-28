@@ -24,7 +24,8 @@ public class Main {
 //        System.out.println(Fraction.getFactors(0));
 //        System.out.println(MathUtils.getGCD(77,121));
 //        System.out.println(MathUtils.factorial(-1));
-        CollarPoints collarPoints = new CollarPoints();
+//        CollarPoints collarPoints = new CollarPoints();
+        CollarPointsChris collarPointsChris = new CollarPointsChris();
 
     }
 }
