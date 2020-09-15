@@ -17,12 +17,12 @@ public class Fraction {
         this.denominator = denominator;
     }
 
-    // Todo: work on multiplication and division, convert fractions to double and vice versa
+    // Todo: work on, convert fractions to double and vice versa
 
     public void display() {
         int[] factors = MathUtils.endSimplification(new int[] { numerator, denominator });
         String fraction = String.valueOf(factors[0]) + "/" + String.valueOf(factors[1]);
-        if (factors[1] == 1) {
+        if (factors[1] == 1 || factors[0] == 0) {
             fraction = String.valueOf(factors[0]);
         }
         System.out.println(fraction);
@@ -44,5 +44,20 @@ public class Fraction {
         return add(first_fraction, second_fraction);
     }
 
-    // Todo: work on displaying the solution and show work
+    public static Fraction multiply(Fraction first_fraction, Fraction second_fraction) {
+        int numerator = first_fraction.numerator * second_fraction.numerator;
+        int denominator = first_fraction.denominator * second_fraction.denominator;
+        int[] factors = MathUtils.endSimplification(new int[] { numerator, denominator});
+        return new Fraction(factors[0], factors[1]);
+    }
+
+    public static Fraction reciprocal(Fraction fraction) {
+        return new Fraction(fraction.denominator, fraction.numerator);
+    }
+
+    public static Fraction divide(Fraction first_fraction, Fraction second_fraction) {
+        return multiply(first_fraction, reciprocal(second_fraction));
+    }
+
+    // Todo: work on displaying the solution and show work and fix bugs such as division by zero
 }
